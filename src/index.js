@@ -5,6 +5,13 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import axios from 'axios'
 
+
+axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com'
+// Set for all requests (Check in logged request, in dev console.)
+axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN'
+// Set only for post requests
+axios.defaults.headers.posts['Content-Type'] = 'application/json' // This is the default anyway
+
 // This will affect all files in project
 // This one is globally for REQUEST sends.
 // It will take 1 or 2 functions. First one is for request config,

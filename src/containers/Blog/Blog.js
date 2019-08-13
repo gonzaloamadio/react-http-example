@@ -14,7 +14,7 @@ class Blog extends Component {
     }
 
     componentDidMount() {
-        axios.get('https://jsonplaceholder.typicode.com/posts')
+        axios.get('/posts')
             .then(response => {
                 // Fake Pagination, or can do it like this, if we knoe there wont be too much
                 // So we do not keep sending requests
