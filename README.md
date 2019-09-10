@@ -1,3 +1,13 @@
+# Concepts of React in this project
+
+Main concepts learned with this project.
+
+- Axios
+- Firebase connection
+- Routing (react-router)
+
+# REACT README DOC
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
