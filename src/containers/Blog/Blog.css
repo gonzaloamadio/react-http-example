@@ -17,6 +17,7 @@
 }
 
 .Blog a:hover,
-.Blog a:active {
+.Blog a:active, 
+.Blog a.active { /* Todos los a que tienen la clase active */
     color: #fa923f;
 }
