@@ -9,13 +9,15 @@ class FullPost extends Component {
         loadedPost: null,
     }
 
-    componentDidUpdate () {
-        if (this.props.id){
+    // componentDidUpdate ()  it is not more this method, because with routing we are 
+    // mounting or umounting the component from the DOM
+    componentDidMount () {
+        if (this.props.match.params.id){
             // Check if a new post is selected, if not it will be in an infinite loop
             // as the component will update when post fetched, and componentDidUpdate will
             // be executed again, and fill fetch, and enter into a loop.
             if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)){
-                axios.get('/posts/' + this.props.id)
+                axios.get('/posts/' + this.props.match.params.id)
                 .then(response => {
                     this.setState({loadedPost: response.data})
                 })
