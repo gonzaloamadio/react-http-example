@@ -12,11 +12,23 @@ class FullPost extends Component {
     // componentDidUpdate ()  it is not more this method, because with routing we are 
     // mounting or umounting the component from the DOM
     componentDidMount () {
+        this.loadData()
+    }
+
+    // Manage changes in the route, because if not, the router will not re render the component,
+    // As we will be changing a url, so the component does not suffer changes => not re-render.
+    // But as the component is receiving new props, will enter this method.
+    componentDidUpdate(){
+        this.loadData()
+    }
+
+    loadData () {
         if (this.props.match.params.id){
             // Check if a new post is selected, if not it will be in an infinite loop
             // as the component will update when post fetched, and componentDidUpdate will
             // be executed again, and fill fetch, and enter into a loop.
-            if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)){
+            // + before match.params.id is to convert string to number.
+            if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== +this.props.match.params.id)){
                 axios.get('/posts/' + this.props.match.params.id)
                 .then(response => {
                     this.setState({loadedPost: response.data})
@@ -24,9 +36,8 @@ class FullPost extends Component {
             }
         }
     }
-
     deletePostHandler = () => {
-        axios.delete('/posts/' + this.props.id)
+        axios.delete('/posts/' + this.props.match.params.id)
             .then(response => {
                 console.log(response)
             })
@@ -40,7 +51,7 @@ class FullPost extends Component {
         // untill post is fetch. 
         // So props.id exists inmediately (it is rendered with component) but not the post from state.
         // In consequence, to show the post, we can do something like this.
-        if (this.props.id) {
+        if (this.props.match.params.id) {
             post = <p style={{textAlign:'center'}}>Loading...</p>
         }
 
