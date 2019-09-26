@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 // import axios from 'axios'
 import axios from '../../../axios';
-import { Link } from 'react-router-dom'
+import { Link, Route } from 'react-router-dom'
 
 import Post from '../../../components/Post/Post';
+import FullPost from '../FullPost/FullPost'
 import './Posts.css';
 
 class Posts extends Component {
@@ -43,7 +44,7 @@ class Posts extends Component {
         if (!this.state.error) {
             posts = this.state.posts.map(post => {
                 // Key goes to the outmost element
-                return ( <Link to={'/' + post.id}  key={post.id} >
+                return ( <Link to={'/posts/' + post.id}  key={post.id} >
                     <Post 
                     title={post.title} 
                     author={post.author}
@@ -54,9 +55,13 @@ class Posts extends Component {
         }
 
         return (
+            <div>         
             <section className="Posts">
                 {posts}
             </section>
+            {/* add match.url at the beggining so we stay in the same route as the father commponent. */}
+            <Route path={this.props.match.url + "/:id"} exact component={FullPost} />
+            </div>
         );
     }
 }
