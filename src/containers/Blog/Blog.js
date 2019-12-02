@@ -5,11 +5,29 @@ import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 
 import './Blog.css';
 import Posts from './Posts/Posts';
-import NewPost from './NewPost/NewPost';
+import asyncComponent from '../../hoc/asyncComponent';
+// import NewPost from './NewPost/NewPost';
+
+// Remember that the component take a function that returns a promise.
+// When we use this constante, eventually will be a Component,
+// as asyncComponent returns a Component, the one in the path of import().
+const AsyncNewPost = asyncComponent(() => {
+  // The import keyword as a function. It is a special syntax, the
+  // dynamic import syntax, which means, whatever comes between the
+  // parenthesis here is only imported when the function (the function
+  // that is the argument of asyncComponent, in this case the arroy
+  // function) is executed. Esta funcion va a ser ejecutada solo cuando
+  // renderizemos AsyncNewPost.
+  // So './NewPost/NewPost' will be imported, when the
+  // constant AsyncNewPost is used somewhere.
+  return import('./NewPost/NewPost');
+});
+// The oneliner version of this function will be:
+// const AsyncNewPost = asyncComponent(() => import('./NewPost/NewPost'))
 
 class Blog extends Component {
   state = {
-    auth: false
+    auth: true
   };
   render() {
     return (
@@ -44,7 +62,7 @@ class Blog extends Component {
           {/* This will give null if not auth, and will end up in the Redirect or Route without path, 
                 that catch everything that was not cought before. So we will end in /posts */}
           {this.state.auth ? (
-            <Route path="/new-post" component={NewPost} />
+            <Route path="/new-post" component={AsyncNewPost} />
           ) : null}
           <Route path="/posts" component={Posts} />
           {/* This is one way, with the Redirect at the end to catch a 404, 
